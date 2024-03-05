@@ -1,7 +1,6 @@
 //inicializa a tela
 int[][] grid;
 
-
 int n = 100;
 
 void setup () {
@@ -59,26 +58,28 @@ void atualizaGrid(){
   for(int i = 0; i < n; i++){
     for(int j = 0; j < n; j++){
       int viz = vizinhosIguais(i,j);
+
+      if (viz < 4) {
       
-      while (true) {
-        i = (int)random(n);
-        j = (int)random(n);
-        
-        if (grid[i][j] == 0) continue;
-        
-          if(grid[i][j] == 1){
-            if(viz < 2 || viz > 3) novoGrid[i][j] = 0;
-            else novoGrid[i][j] = 1;
+          while (true) {
+            int ki = (int)random(n);        //ki linha da casa do vizinho
+            int kj = (int)random(n);        //kj coluna da casa do vizinho
+            
+            
+            if(grid[ki][kj] == 0 && novoGrid[ki][kj] == 0){
+                novoGrid[ki][kj] = grid[i][j];        //celula esta se mudando para a casa vazia
+                novoGrid[i][j] = 0;                   //celula em que estava fica vazia
+
+                break;
+            }  
           }
-          else{
-            if(viz == 3) novoGrid[i][j] = 1;
-            else novoGrid[i][j] = 0;
-          }
-      }
+       } else {
+            novoGrid[i][j] = grid[i][j];        //se tem mais de 4 vizinhos a celula esta satisfeita, entao ela nao quer se mudar e mantem seu lugar
+       }
     }
   }
   
-  grid = novoGrid;
+  grid = novoGrid;        //atualiza a casa que todas as celulas estao
 }
 
 void draw(){
