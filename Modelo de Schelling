@@ -26,8 +26,8 @@ int[][] criaGrid(){
 }
 
 void mostraGrid(){
-  float l = width/(float)n;
-  float h = height/(float)n;
+  float l = width/(float)n;     //define a largura do quadradinho
+  float h = height/(float)n;    //define a altura do quadradinho
   
   for(int i = 0; i < n; i++){
     for(int j = 0; j < n; j++){
