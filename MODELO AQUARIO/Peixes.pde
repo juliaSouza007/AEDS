@@ -1,39 +1,75 @@
 class Peixes {
-    float centerX, centerY, bodyLength, bodyHeight, tailWidth, tailHeight;
-    color bodyColor;
-    PVector pos, vel, acel; // Define a posição, velocidade e aceleração do peixe
+  // Variáveis para a posição e velocidade do peixe
+  float posX, posY, velX, velY;
 
-    Peixes () {
-        this.centerX = centerX;
-        this.centerY = centerY;
-        this.bodyLength = bodyLength;
-        this.bodyHeight = bodyHeight;
-        this.bodyColor = bodyColor;
+  // Variáveis para o tamanho do corpo do peixe
+  float compCorpo, altCorpo;
 
-        this.tailWidth = tailWidth;
-        this.tailHeight = tailHeight;
+  // Cor do peixe
+  color cor;
 
-        this.pos = pos;
-        this.vel = vel;
-        this.acel = acel;
+  // Contador
+  int contador;
+
+  // Construtor
+  Peixes() {
+    posX = (float)random(width);
+    posY = (float)random(alturaOndas, height);
+
+    // Define o corpo do peixe
+    noStroke();
+    this.compCorpo = (float)random(30, 40);
+    this.altCorpo = (float)random(20, 40);
+
+    // Define a velocidade
+    this.velX = (float)random(-50, 200);
+    this.velY = (float)random(-50, 200);
+
+    // Define a cor
+    this.cor = color((int)random(225), (int)random(225), (int)random(225));
+    this.contador = 0;
+  }
+
+  // Move o peixe
+  void mover() {
+    if (this.contador < 600) {
+      posX += velX/frameRate;
+      posY += velY/frameRate;
+
+      // Trata colisões com as paredes
+      if (posX >= width || posX < 0) velX = -velX;
+      if (posY >= height || posY < alturaOndas) velY = -velY;
+
+      this.contador++;
+    } else {
+      // Define uma nova velocidade
+      this.velX = (float)random(80, 200);
+      this.velY = (float)random(80, 200);
+      this.contador = 0;
     }
+  }
 
+  // Desenha o peixe
+  void desenhar() {
+    fill(cor);
 
-    void move(){
+    // Desenha o corpo
+    ellipse(posX, posY, compCorpo, altCorpo);
 
+    // Desenha a cauda
+    float larguraCauda = compCorpo/3;
+    float alturaCauda = compCorpo/2;
+
+    if (velX > 0) {
+      // Cauda para a direita
+      triangle((posX-compCorpo/2), posY,
+        (posX-compCorpo/2-larguraCauda), (posY-alturaCauda),
+        (posX-compCorpo/2-larguraCauda), (posY+alturaCauda));
+    } else {
+      // Cauda para a esquerda
+      triangle((posX+compCorpo/2), posY,
+        (posX+compCorpo/2+larguraCauda), (posY+alturaCauda),
+        (posX+compCorpo/2+larguraCauda), (posY-alturaCauda));
     }
-
-    void  desenha(){
-         noStroke();
-         fill(bodyColor);
-
-         // body
-        ellipse(centerX, centerY, bodyLength, bodyHeight);
-
-        // tail
-        triangle(centerX-bodyLength/2, centerY,
-              centerX-bodyLength/2-tailWidth, centerY-tailHeight,
-              centerX-bodyLength/2-tailWidth, centerY+tailHeight);
-    }
-
+  }
 }
