@@ -70,19 +70,19 @@ void draw() {
 }
 
 void novaGeracao() {
-  // Reabastece os recursos
+  // Reabastece os recursos ao começar uma nova geração
   comida.clear();
   for (int i = 0; i < quantidadeRecursos; i++) {
+    // Adiciona novos recursos em posições aleatórias
     comida.add(new PVector(random(width), random(height)));
   }
-  
+
   // Se a população estiver muito pequena, adiciona novos organismos
-  if (populacao.size() < 10) {
+  if (populacao.size() < 50) {
     for (int i = 0; i < 10; i++) {
       float[] dna = new float[3];
       for(int k = 0; k < dna.length; k++) dna[k] = random(1);
       populacao.add(new Organismo(new PVector(random(width), random(height)), dna));
     }
   }
-  
 }
