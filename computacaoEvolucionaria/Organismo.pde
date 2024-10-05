@@ -83,13 +83,7 @@ class Organismo {
         }
       }
       
-      vida -= 10; // O organismo perde um pouco de vida ao se reproduzir
-      
-      // Log de reprodução
-      println("Reprodução! Organismo de sexo " + (sexo == 0 ? "macho" : "fêmea") +
-              " e organismo de sexo " + (outro.sexo == 0 ? "macho" : "fêmea") +
-              " geraram um novo organismo de sexo " + (novoDna[3] < 0.5 ? "macho" : "fêmea") +
-              " com DNA: " + novoDna[0] + ", " + novoDna[1] + ", " + novoDna[2] + ", " + novoDna[3]);
+      vida -= 5; // O organismo perde um pouco de vida ao se reproduzir
       
       return new Organismo(posicao, novoDna);
     }
@@ -102,22 +96,24 @@ class Organismo {
   }
   
   void mostra() {
-    stroke(0);
-    
-    if (sexo == 0) {
-      fill(60, 100, 100); // Azul (macho)
-    } else {
-      fill(300, 100, 100); // Rosa (fêmea)
-    }
-    
-    ellipse(posicao.x, posicao.y, tamanho, tamanho);
-  }
-
+      stroke(0);
+      color corOrganismo;
   
-  color cor(float valor) {
-    valor = constrain(valor, 0, 100);
-    float matiz = map(valor, 0, 100, 0, 120);
-    return color(matiz, 100, 100);
+      if (sexo == 0) {
+          corOrganismo = color(#2581CE); // Azul para machos
+      } else {
+          corOrganismo = color(#F523B6); // Rosa para fêmeas
+      }
+  
+      // Chance de mutação para verde água ou vermelho
+      if (dna[2] > 0.9) {
+          corOrganismo = color(#78F2DD); // Ciano
+      } else if (dna[2] < 0.1) {
+          corOrganismo = color(#E3123C); // Vermelho
+      }
+  
+      fill(corOrganismo);
+      ellipse(posicao.x, posicao.y, tamanho, tamanho);
   }
   
   // Verifica a reprodução com outro organismo
